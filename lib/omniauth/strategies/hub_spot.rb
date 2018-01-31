@@ -13,7 +13,8 @@ module OmniAuth
       option :client_options, {
         :site           => 'https://api.hubapi.com',
         :authorize_url  => 'https://app.hubspot.com/oauth/authorize',
-        :token_url      => 'https://api.hubapi.com/oauth/v1/token'
+        :token_url      => 'https://api.hubapi.com/oauth/v1/token',
+        :auth_scheme    => :request_body
       }
 
       option :name, 'hubspot'
@@ -36,6 +37,10 @@ module OmniAuth
       
       extra do 
         { 'user' =>  prune!(raw_info) }
+      end
+      
+      def callback_url
+        full_host + script_name + callback_path
       end
       
       def raw_info
